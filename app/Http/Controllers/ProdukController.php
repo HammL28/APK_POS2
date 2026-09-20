@@ -120,7 +120,7 @@ class ProdukController extends Controller
 
     $produk->update($data);
 
-    return redirect()->route('produk.edit', $produk->id)->with('success', 'Product updated successfully.');
+    return redirect()->route('produk.index')->with('success', 'Product updated successfully.');
 }
 
 
