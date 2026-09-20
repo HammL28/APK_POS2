@@ -1,12 +1,7 @@
-<!-- Tambahkan pembungkus tag <form> di paling atas -->
-<form action="{{ route('produk.store') }}" method="POST" enctype="multipart/form-data">
-    
-    @csrf  <!-- Cukup tulis @csrf sekali saja di sini -->
-
     @if (!empty($produk->foto))
         <div class="mb-2">
             <label>Foto Saat Ini</label><br>
-            <img src="{{ asset('storage/'. $produk->foto) }}" width="150" class="img-thumbnail">
+            <img src="{{ asset('storage/' . ltrim($produk->foto, '/')) }}" width="150" class="img-thumbnail" alt="{{ $produk->nama }}">
         </div>
     @endif
 
@@ -86,7 +81,6 @@
     <button class="btn btn-success mt-3" type="submit">Simpan</button>
     <a href="{{ route('produk.index') }}" class="btn btn-secondary mt-3">Kembali</a>
 
-</form> <!-- Tutup tag </form> di bawah tombol -->
 
 <script>
 function previewImage(input) {
