@@ -6,14 +6,14 @@
 
 @include('layouts.navbar')
 
-<div class="bg-body-tertiary min-vh-100 py-3 py-md-4 w-100">
+<div class="dashboard-shell min-vh-100 py-3 py-md-4 w-100">
     <div class="container-fluid px-3 px-md-4">
-        
-        <div class="card border-0 rounded-4 shadow-sm overflow-hidden mb-4" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);">
+
+        <div class="card border-0 rounded-4 shadow-sm overflow-hidden mb-4 dashboard-hero">
             <div class="card-body p-4 position-relative z-1 text-white">
                 <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
                     <div>
-                        <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-white bg-opacity-10 text-light mb-2 border border-white border-opacity-10">
+                        <div class="d-inline-flex align-items-center gap-2 px-3 py-2 rounded-pill badge-soft mb-2">
                             <i class="bi bi-people text-info"></i>
                             <span class="small fw-semibold">Access Control & Security</span>
                         </div>
@@ -37,15 +37,15 @@
                 <div class="row g-3 align-items-center justify-content-between">
                     <div class="col-12 col-md-6 col-lg-4">
                         <form action="{{ route('admin.users') }}" method="GET">
-                            <div class="input-group rounded-pill overflow-hidden bg-body-tertiary border border-light-subtle">
+                            <div class="input-group rounded-pill overflow-hidden bg-body-tertiary border border-light-subtle shadow-sm">
                                 <span class="input-group-text bg-transparent border-0 ps-3 text-secondary">
                                     <i class="bi bi-search"></i>
                                 </span>
-                                <input 
-                                    type="text" 
-                                    name="search" 
-                                    value="{{ request('search') }}" 
-                                    class="form-control bg-transparent border-0 ps-2 fs-7 shadow-none text-dark" 
+                                <input
+                                    type="text"
+                                    name="search"
+                                    value="{{ request('search') }}"
+                                    class="form-control bg-transparent border-0 ps-2 fs-7 shadow-none text-dark"
                                     placeholder="Cari nama pengguna atau email..."
                                 >
                                 @if(request('search'))
@@ -57,9 +57,9 @@
                             </div>
                         </form>
                     </div>
-                    
+
                     <div class="col-12 col-md-auto text-secondary small fw-medium">
-                        <span class="d-inline-block px-3 py-1 rounded-pill bg-light-subtle border">
+                        <span class="d-inline-block px-3 py-1 rounded-pill bg-light-subtle border border-light-subtle">
                             <i class="bi bi-person-lines-fill me-1 text-primary"></i> Total User: <strong class="text-dark">{{ method_exists($users, 'total') ? $users->total() : count($users) }}</strong>
                         </span>
                     </div>
@@ -69,7 +69,7 @@
             <div class="card-body p-0">
                 <div class="table-responsive">
                     <table class="table table-hover align-middle mb-0">
-                        <thead class="bg-light-subtle text-secondary small text-uppercase tracking-wider">
+                        <thead class="table-head">
                             <tr>
                                 <th scope="col" class="ps-4 py-3 fw-bold" style="width: 5%;">#</th>
                                 <th scope="col" class="py-3 fw-bold" style="width: 30%;">Pengguna</th>
@@ -87,7 +87,7 @@
 
                                     <td class="py-3">
                                         <div class="d-flex align-items-center gap-2">
-                                            <div class="rounded-circle bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center fw-bold" style="width: 38px; height: 38px;">
+                                            <div class="rounded-circle bg-primary-subtle text-primary d-flex align-items-center justify-content-center fw-bold" style="width: 38px; height: 38px;">
                                                 {{ strtoupper(substr($user->name ?? 'U', 0, 1)) }}
                                             </div>
                                             <div>
@@ -117,9 +117,9 @@
 
                                     <td class="pe-4 py-3 text-end">
                                         <div class="d-inline-flex gap-1">
-                                            <a href="{{ route('admin.users.edit', $user->id) }}" 
-                                               class="btn btn-sm btn-light border text-warning-emphasis hover-action-btn rounded-circle p-2 d-inline-flex align-items-center justify-content-center" 
-                                               style="width: 36px; height: 36px;" 
+                                            <a href="{{ route('admin.users.edit', $user->id) }}"
+                                               class="btn btn-sm btn-light border text-warning-emphasis hover-action-btn rounded-circle p-2 d-inline-flex align-items-center justify-content-center"
+                                               style="width: 36px; height: 36px;"
                                                title="Edit User">
                                                 <i class="bi bi-pencil-fill"></i>
                                             </a>
@@ -127,10 +127,10 @@
                                             <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" 
-                                                        class="btn btn-sm btn-light border text-danger hover-action-btn rounded-circle p-2 d-inline-flex align-items-center justify-content-center" 
-                                                        style="width: 36px; height: 36px;" 
-                                                        onclick="return confirm('Apakah Anda yakin ingin menghapus user ini?')" 
+                                                <button type="submit"
+                                                        class="btn btn-sm btn-light border text-danger hover-action-btn rounded-circle p-2 d-inline-flex align-items-center justify-content-center"
+                                                        style="width: 36px; height: 36px;"
+                                                        onclick="return confirm('Apakah Anda yakin ingin menghapus user ini?')"
                                                         title="Hapus User">
                                                     <i class="bi bi-trash-fill"></i>
                                                 </button>
@@ -162,6 +162,32 @@
 </div>
 
 <style>
+    .dashboard-shell {
+        background: linear-gradient(180deg, #f3f6fb 0%, #eef4ff 100%);
+    }
+
+    .dashboard-hero {
+        background: linear-gradient(135deg, #0f172a 0%, #111827 30%, #1d4ed8 100%);
+        position: relative;
+    }
+
+    .badge-soft {
+        background: rgba(255, 255, 255, 0.12);
+        color: #e2e8f0;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .table-head th {
+        background: #f8fafc;
+        color: #64748b;
+        font-size: 0.7rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-weight: 700;
+        padding-top: 0.9rem;
+        padding-bottom: 0.9rem;
+    }
+
     .tracking-wider {
         letter-spacing: 0.06em;
     }

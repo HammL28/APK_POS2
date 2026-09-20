@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<div class="container-fluid p-0">
+<div class="app-shell container-fluid p-0">
 
     @if(session('success'))
         <div class="alert alert-success m-3">
@@ -16,9 +16,35 @@
         </div>
     @endif
 
-    @yield('content')
+    <div class="main-content">
+        @yield('content')
+    </div>
 
 </div>
+
+<style>
+    body {
+        margin: 0;
+        background: #eef2f6;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .app-shell {
+        min-height: 100vh;
+        background: #eef2f6;
+    }
+
+    .main-content {
+        margin-left: 250px;
+        min-height: 100vh;
+    }
+
+    @media (max-width: 991.98px) {
+        .main-content {
+            margin-left: 0;
+        }
+    }
+</style>
 
 </body>
 </html>

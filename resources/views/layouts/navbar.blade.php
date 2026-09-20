@@ -1,90 +1,232 @@
-<nav class="navbar navbar-expand-lg sticky-top shadow-sm" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);">
-    <div class="container-fluid px-3 px-md-4">
-        
-        <a class="navbar-brand d-flex align-items-center gap-2 fw-bold text-white fs-5 me-4" href="{{ route('about') }}" title="Tentang Toko">
-            <div class="d-inline-flex align-items-center justify-content-center bg-info bg-opacity-10 text-info rounded-3 p-1.5 border border-info border-opacity-25" style="width: 36px; height: 36px;">
-                <i class="bi bi-shop fs-5"></i>
+<aside class="app-sidebar">
+    <div class="sidebar-brand">
+        <a href="{{ route('about') }}" class="brand-link" title="Tentang Toko">
+            <div class="brand-icon">
+                <i class="bi bi-shop"></i>
             </div>
-            <span>POS System</span>
+            <div>
+                <span class="brand-name">POS System</span>
+                <small class="brand-subtitle">Admin Panel</small>
+            </div>
+        </a>
+    </div>
+
+    <nav class="sidebar-nav" aria-label="Sidebar navigation">
+        <a class="nav-item {{ Request::is('dashboard*') ? 'active' : '' }}" href="{{ route('dashboard') }}">
+            <i class="bi bi-grid-1x2"></i>
+            <span>Dashboard</span>
         </a>
 
-        <button class="navbar-toggler border-white border-opacity-25 text-white shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
-        </button>
+        @if(Auth::check() && Auth::user()->role?->name === 'admin')
+            <a class="nav-item {{ Request::is('admin/users*') ? 'active' : '' }}" href="{{ route('admin.users') }}">
+                <i class="bi bi-people"></i>
+                <span>Users</span>
+            </a>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-1 mt-2 mt-lg-0">
-                
-                <li class="nav-item">
-                    <a class="nav-link px-3 py-2 rounded-pill fs-7 fw-medium text-white-50 text-white-hover {{ Request::is('dashboard*') ? 'active bg-white bg-opacity-10 text-white fw-semibold border border-white border-opacity-10' : '' }}" 
-                       aria-current="page" 
-                       href="{{ route('dashboard') }}">
-                        <i class="bi bi-grid-1x2 me-1.5"></i> Dashboard
-                    </a>
-                </li>
+            <a class="nav-item {{ Request::is('jenis*') ? 'active' : '' }}" href="{{ route('jenis.index') }}">
+                <i class="bi bi-tags"></i>
+                <span>Jenis</span>
+            </a>
+        @endif
 
-                @if(Auth::user()->role?->name === 'admin')
-                    <li class="nav-item">
-                        <a class="nav-link px-3 py-2 rounded-pill fs-7 fw-medium text-white-50 text-white-hover {{ Request::is('admin/users*') ? 'active bg-white bg-opacity-10 text-white fw-semibold border border-white border-opacity-10' : '' }}"
-                           href="{{ route('admin.users') }}">
-                            <i class="bi bi-people me-1.5"></i> Users
-                        </a>
-                    </li>
+        <a class="nav-item {{ Request::is('produk*') ? 'active' : '' }}" href="{{ route('produk.index') }}">
+            <i class="bi bi-box-seam"></i>
+            <span>Produk</span>
+        </a>
 
-                    <li class="nav-item">
-                        <a class="nav-link px-3 py-2 rounded-pill fs-7 fw-medium text-white-50 text-white-hover {{ Request::is('jenis*') ? 'active bg-white bg-opacity-10 text-white fw-semibold border border-white border-opacity-10' : '' }}"
-                           href="{{ route('jenis.index') }}">
-                            <i class="bi bi-tags me-1.5"></i> Jenis
-                        </a>
-                    </li>
-                @endif
+        <a class="nav-item {{ Request::is('penjualan*') ? 'active' : '' }}" href="{{ route('penjualan.index') }}">
+            <i class="bi bi-cart3"></i>
+            <span>Penjualan</span>
+        </a>
+    </nav>
 
+    <div class="sidebar-footer">
+        @if(Auth::check())
+            <a href="{{ route('profile') }}" class="profile-pill {{ Request::is('profile') ? 'active' : '' }}">
+                <i class="bi bi-person-circle"></i>
+                <span>{{ Auth::user()->name }}</span>
+            </a>
+        @endif
 
-                <li class="nav-item">
-                    <a class="nav-link px-3 py-2 rounded-pill fs-7 fw-medium text-white-50 text-white-hover {{ Request::is('produk*') ? 'active bg-white bg-opacity-10 text-white fw-semibold border border-white border-opacity-10' : '' }}" 
-                       href="{{ route('produk.index') }}">
-                        <i class="bi bi-box-seam me-1.5"></i> Produk
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link px-3 py-2 rounded-pill fs-7 fw-medium text-white-50 text-white-hover {{ Request::is('penjualan*') ? 'active bg-white bg-opacity-10 text-white fw-semibold border border-white border-opacity-10' : '' }}" 
-                       href="{{ route('penjualan.index') }}">
-                        <i class="bi bi-cart3 me-1.5"></i> Penjualan
-                    </a>
-                </li>
-
-            </ul>
-
-            <div class="d-flex align-items-center gap-3 pt-2 pt-lg-0 border-top border-lg-0 border-white border-opacity-10 mt-2 mt-lg-0">
-                @if(Auth::check())
-                    <a href="{{ route('profile') }}"
-                       class="d-none d-xl-flex align-items-center gap-2 text-white-50 fs-7 pe-2 text-decoration-none text-white-hover rounded-pill px-2 py-1 {{ Request::is('profile') ? 'bg-white bg-opacity-10 text-white' : '' }}"
-                       title="Lihat profile">
-                        <i class="bi bi-person-circle fs-6 text-info"></i>
-                        <span>{{ Auth::user()->name }}</span>
-                    </a>
-                @endif
-
-                <form action="{{ route('logout') }}" method="POST" class="m-0">
-                    @csrf
-                    <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill px-3 py-1.5 fs-7 d-flex align-items-center gap-1.5 border-opacity-50">
-                        <i class="bi bi-box-arrow-right"></i>
-                        <span>Logout</span>
-                    </button>
-                </form>
-            </div>
-
-        </div>
+        <form action="{{ route('logout') }}" method="POST" class="logout-form">
+            @csrf
+            <button type="submit" class="logout-btn">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Logout</span>
+            </button>
+        </form>
     </div>
-</nav>
+</aside>
 
 <style>
-    .fs-7 {
-        font-size: 0.875rem;
+    .app-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 250px;
+        height: 100vh;
+        background: linear-gradient(180deg, #0f172a 0%, #111827 100%);
+        border-right: 1px solid rgba(148, 163, 184, 0.2);
+        box-shadow: 10px 0 30px rgba(15, 23, 42, 0.18);
+        display: flex;
+        flex-direction: column;
+        padding: 1.25rem 0.9rem 1rem;
+        z-index: 1030;
     }
-    .text-white-hover:hover {
-        color: #ffffff !important;
-        background-color: rgba(255, 255, 255, 0.05);
+
+    .sidebar-brand {
+        padding: 0.5rem 0.5rem 1rem;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+        margin-bottom: 1rem;
+    }
+
+    .brand-link {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        text-decoration: none;
+        color: #fff;
+    }
+
+    .brand-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 0.9rem;
+        background: rgba(59, 130, 246, 0.15);
+        border: 1px solid rgba(96, 165, 250, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #7dd3fc;
+        font-size: 1.1rem;
+    }
+
+    .brand-name {
+        display: block;
+        font-weight: 700;
+        font-size: 1rem;
+        line-height: 1.2;
+    }
+
+    .brand-subtitle {
+        display: block;
+        color: rgba(226, 232, 240, 0.7);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        font-size: 0.62rem;
+    }
+
+    .sidebar-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+        flex: 1;
+    }
+
+    .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        color: rgba(226, 232, 240, 0.8);
+        text-decoration: none;
+        padding: 0.8rem 0.9rem;
+        border-radius: 0.9rem;
+        font-size: 0.92rem;
+        font-weight: 600;
+        transition: all 0.2s ease;
+    }
+
+    .nav-item:hover,
+    .nav-item.active {
+        background: rgba(255, 255, 255, 0.12);
+        color: #ffffff;
+        transform: translateX(2px);
+        box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
+    }
+
+    .nav-item i {
+        width: 18px;
+        text-align: center;
+        font-size: 1rem;
+    }
+
+    .sidebar-footer {
+        padding-top: 1rem;
+        border-top: 1px solid rgba(148, 163, 184, 0.18);
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .profile-pill {
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+        color: rgba(226, 232, 240, 0.9);
+        text-decoration: none;
+        padding: 0.7rem 0.8rem;
+        border-radius: 0.9rem;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(148, 163, 184, 0.15);
+        font-weight: 600;
+        font-size: 0.85rem;
+    }
+
+    .profile-pill.active,
+    .profile-pill:hover {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.06);
+    }
+
+    .logout-form {
+        margin: 0;
+    }
+
+    .logout-btn {
+        width: 100%;
+        border: 0;
+        border-radius: 0.9rem;
+        background: rgba(239, 68, 68, 0.1);
+        color: #fecaca;
+        padding: 0.8rem 0.9rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.6rem;
+    }
+
+    .logout-btn:hover {
+        background: rgba(239, 68, 68, 0.18);
+        color: #fff;
+    }
+
+    @media (max-width: 991.98px) {
+        .app-sidebar {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            height: auto;
+            border-right: none;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+            box-shadow: none;
+            padding-bottom: 0.75rem;
+        }
+
+        .app-sidebar + * {
+            margin-left: 0;
+        }
+
+        .sidebar-nav {
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .nav-item {
+            flex: 1 1 auto;
+            justify-content: center;
+            min-width: 120px;
+        }
     }
 </style>
